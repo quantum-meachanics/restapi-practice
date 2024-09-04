@@ -21,8 +21,8 @@ public class SwaggerConfig {
 
     private Info swaggerInfo() {
         return new Info()
-                .title("Ohgiraffers API")
-                .description("SpringBoot Swagger 연동테스트")
+                .title("Quantum API")
+                .description("SpringBoot Swagger Quantum Rest API 연습")
                 .version("1.0.0");
     }
 }
