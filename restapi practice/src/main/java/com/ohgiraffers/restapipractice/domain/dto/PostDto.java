@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 public class PostDto {
 
-    private int id;
+    private long id;
     private String title;
     private String content;
 }
