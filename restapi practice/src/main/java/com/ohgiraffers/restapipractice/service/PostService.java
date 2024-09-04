@@ -6,9 +6,9 @@ import com.ohgiraffers.restapipractice.domain.entity.Post;
 import com.ohgiraffers.restapipractice.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -17,6 +17,56 @@ public class PostService {
 
     public PostService(PostRepository postRepository) {
         this.repo = postRepository;
+    }
+
+    public List<PostDto> findAllPosts() {
+        return repo.findAll().stream().map(entity ->
+                        PostDto.builder()
+                                .id(entity.getId())
+                                .title(entity.getTitle())
+                                .content(entity.getContent())
+                                .build())
+                .collect(Collectors.toList()
+                );
+    }
+
+    public PostDto findPostById(long postId) {
+
+        Post postEntity = repo.findById(postId)
+                .orElseThrow(() -> new NoSuchElementException("Post not found with id " + postId));
+
+        return PostDto.builder()
+                .id(postEntity.getId())
+                .title(postEntity.getTitle())
+                .content(postEntity.getContent())
+                .build();
+    }
+
+    public PostDto createPost(PostDto newPost) {
+
+        Post post = Post.builder()
+                .title(newPost.getTitle())
+                .content(newPost.getContent())
+                .build();
+
+        Post savedPost = repo.save(post);
+
+        return new PostDto(savedPost.getId(), savedPost.getTitle(), savedPost.getContent());
+    }
+
+    public PostDto updatePost(Long id, PostDto modifyInfo) {
+
+        Post postEntity = repo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Post not found with id " + id));
+
+        Post updatePost = postEntity.builder()
+                .title(modifyInfo.getTitle())
+                .content(modifyInfo.getContent())
+                .build();
+
+        repo.save(updatePost);
+
+        return new PostDto(updatePost.getId(), updatePost.getTitle(), updatePost.getContent());
     }
 
     public boolean deletePost(long postNo) {
@@ -30,33 +80,5 @@ public class PostService {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public List<Post> findAllPosts() {
-        return new ArrayList<>(repo.findAll());
-    }
-
-    public Post findPostById(long postId) {
-        return repo.findById(postId);
-    }
-
-    public PostDto createPost(PostDto newPost) {
-
-        Post post = Post.builder()
-                .title(newPost.getTitle())
-                .content(newPost.getContent()).build();
-
-        Post savedPost = repo.save(post);
-
-        return new PostDto(savedPost.getId(), savedPost.getTitle(), savedPost.getContent());
-    }
-
-    public Post updatePost(Long id, Post modifyInfo) {
-        Post update = repo.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Post not found with id " + id));
-
-        update.setTitle(modifyInfo.getTitle());
-        update.setContent(modifyInfo.getContent());
-        return repo.save(update);
     }
 }

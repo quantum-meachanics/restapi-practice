@@ -2,17 +2,13 @@ package com.ohgiraffers.restapipractice.domain.dto;
 
 import lombok.*;
 
-
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
-@Builder
-public class PostDto {
+public class CreatePostRequest {
 
-    private long id;
     private String title;
     private String content;
-
 }

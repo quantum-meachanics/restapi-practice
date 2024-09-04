@@ -2,8 +2,6 @@ package com.ohgiraffers.restapipractice;
 
 import lombok.*;
 
-import java.util.Map;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -13,6 +11,6 @@ public class ResponseMessage {
 
     private int httpStatusCode;
     private String message;
-    private Map<String, Object> results;
+    private Object results;
 
 }
