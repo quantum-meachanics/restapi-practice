@@ -1,6 +1,5 @@
 package com.ohgiraffers.restapipractice.service;
 
-import com.ohgiraffers.restapipractice.domain.entity.Post;
 import com.ohgiraffers.restapipractice.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
