@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/quantum")
+@RequestMapping("/posts")
 @RequiredArgsConstructor
 public class PostController {
 
