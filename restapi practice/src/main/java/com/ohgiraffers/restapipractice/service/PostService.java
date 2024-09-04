@@ -1,5 +1,6 @@
 package com.ohgiraffers.restapipractice.service;
 
+
 import com.ohgiraffers.restapipractice.domain.entity.Post;
 import com.ohgiraffers.restapipractice.repository.PostRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
 
 @Service
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+
 public class PostService {
 
     private final PostRepository postRepository;
