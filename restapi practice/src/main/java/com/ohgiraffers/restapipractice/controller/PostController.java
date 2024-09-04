@@ -1,6 +1,7 @@
 package com.ohgiraffers.restapipractice.controller;
 
 import com.ohgiraffers.restapipractice.ResponseMessage;
+import com.ohgiraffers.restapipractice.domain.dto.PostDto;
 import com.ohgiraffers.restapipractice.domain.entity.Post;
 import com.ohgiraffers.restapipractice.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,11 +9,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,4 +73,28 @@ public class PostController {
                 .body(new ResponseMessage(200, "게시글 아이디로 조회 성공", responseMap));
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<?> regist(@RequestBody PostDto newPost) {
+
+        // 유저추가
+        PostDto createdPost = service.createPost(newPost);
+
+        return ResponseEntity
+                .created(URI.create("/entity/posts/" + createdPost.getId()))
+
+
+    public PostController(PostService service) {
+        this.service = service;
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modifyPost(@PathVariable Long id, @RequestBody Post modifyInfo) {
+        Post updatedPost = service.updatePost(id, modifyInfo);
+        return ResponseEntity
+                .created(URI.create("/posts/" + updatedPost.getId()))
+
+                .build();
+    }
+
 }
+
