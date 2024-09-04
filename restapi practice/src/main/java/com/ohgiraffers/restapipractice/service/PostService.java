@@ -1,9 +1,11 @@
 package com.ohgiraffers.restapipractice.service;
 
 import com.ohgiraffers.restapipractice.repository.PostRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository repo;
