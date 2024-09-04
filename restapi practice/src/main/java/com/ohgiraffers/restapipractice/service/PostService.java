@@ -1,26 +1,30 @@
 package com.ohgiraffers.restapipractice.service;
 
-
 import com.ohgiraffers.restapipractice.domain.dto.PostDto;
 import com.ohgiraffers.restapipractice.domain.entity.Post;
 import com.ohgiraffers.restapipractice.repository.PostRepository;
-
-
-import com.ohgiraffers.restapipractice.domain.entity.Post;
-import com.ohgiraffers.restapipractice.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 @Service
-@RequiredArgsConstructor
-
 public class PostService {
 
-    private final PostRepository postRepository;
+    private final PostRepository repo;
+
+    public PostService(PostRepository repo) {
+        this.repo = repo;
+    }
+
+    public List<Post> findAllPosts() {
+        return new ArrayList<>(repo.findAll());
+    }
+
+    public Post findPostById(long postId) {
+        return repo.findById(postId);
+    }
 
     public PostDto createPost(PostDto newPost) {
 
@@ -28,21 +32,22 @@ public class PostService {
                 .title(newPost.getTitle())
                 .content(newPost.getContent()).build();
 
-        Post savedPost =  postRepository.save(post);
+        Post savedPost = repo.save(post);
 
         return new PostDto(savedPost.getId(), savedPost.getTitle(), savedPost.getContent());
 
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+    public PostService(PostRepository repo) {
+            this.repo = repo;
+        }
 
-    public Post updatePost(Long id, Post modifyInfo) {
-        Post update = postRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Post not found with id " + id));
+        public Post updatePost (Long id, Post modifyInfo){
+            Post update = repo.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException("Post not found with id " + id));
 
-        update.setTitle(modifyInfo.getTitle());
-        update.setContent(modifyInfo.getContent());
-        return postRepository.save(update);
+            update.setTitle(modifyInfo.getTitle());
+            update.setContent(modifyInfo.getContent());
+            return repo.save(update);
 
+        }
     }
 }
