@@ -19,8 +19,8 @@ public class PostService {
                 .title(newPost.getTitle())
                 .content(newPost.getContent()).build();
 
-        postRepository.save(post);
+        Post savedPost =  postRepository.save(post);
 
-        return newPost;
+        return new PostDto(savedPost.getId(), savedPost.getTitle(), savedPost.getContent());
     }
 }
