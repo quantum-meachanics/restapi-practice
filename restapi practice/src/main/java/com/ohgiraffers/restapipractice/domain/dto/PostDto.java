@@ -2,8 +2,13 @@ package com.ohgiraffers.restapipractice.domain.dto;
 
 import lombok.*;
 
+
+@AllArgsConstructor
+@NoArgsConstructor
+
 @NoArgsConstructor
 @AllArgsConstructor
+
 @Getter
 @Setter
 @ToString

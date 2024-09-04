@@ -1,10 +1,19 @@
 package com.ohgiraffers.restapipractice.controller;
 
+
 import com.ohgiraffers.restapipractice.ResponseMessage;
 import com.ohgiraffers.restapipractice.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import com.ohgiraffers.restapipractice.domain.entity.Post;
+import com.ohgiraffers.restapipractice.service.PostService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,4 +47,13 @@ public class PostController {
                 .ok()
                 .body(new ResponseMessage(204, "게시글 삭제 성공", responseMap));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modifyPost(@PathVariable Long id, @RequestBody Post modifyInfo) {
+        Post updatedPost = postService.updatePost(id, modifyInfo);
+        return ResponseEntity
+                .created(URI.create("/posts/" + updatedPost.getId()))
+                .build();
+    }
+
 }
