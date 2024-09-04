@@ -1,5 +1,6 @@
 package com.ohgiraffers.restapipractice.service;
 
+
 import com.ohgiraffers.restapipractice.domain.dto.PostDto;
 import com.ohgiraffers.restapipractice.domain.entity.Post;
 import com.ohgiraffers.restapipractice.repository.PostRepository;
@@ -14,8 +15,21 @@ public class PostService {
 
     private final PostRepository repo;
 
-    public PostService(PostRepository repo) {
-        this.repo = repo;
+    public PostService(PostRepository postRepository) {
+        this.repo = postRepository;
+    }
+
+    public boolean deletePost(long postNo) {
+        try {
+            if (repo.existsById(postNo)) {
+                repo.deleteById(postNo);
+                return true; // 게시글 삭제 성공
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public List<Post> findAllPosts() {
@@ -35,19 +49,14 @@ public class PostService {
         Post savedPost = repo.save(post);
 
         return new PostDto(savedPost.getId(), savedPost.getTitle(), savedPost.getContent());
+    }
 
-    public PostService(PostRepository repo) {
-            this.repo = repo;
-        }
+    public Post updatePost(Long id, Post modifyInfo) {
+        Post update = repo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Post not found with id " + id));
 
-        public Post updatePost (Long id, Post modifyInfo){
-            Post update = repo.findById(id)
-                    .orElseThrow(() -> new NoSuchElementException("Post not found with id " + id));
-
-            update.setTitle(modifyInfo.getTitle());
-            update.setContent(modifyInfo.getContent());
-            return repo.save(update);
-
-        }
+        update.setTitle(modifyInfo.getTitle());
+        update.setContent(modifyInfo.getContent());
+        return repo.save(update);
     }
 }

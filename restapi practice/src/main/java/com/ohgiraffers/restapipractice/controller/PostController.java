@@ -1,5 +1,6 @@
 package com.ohgiraffers.restapipractice.controller;
 
+
 import com.ohgiraffers.restapipractice.ResponseMessage;
 import com.ohgiraffers.restapipractice.domain.dto.PostDto;
 import com.ohgiraffers.restapipractice.domain.entity.Post;
@@ -81,10 +82,24 @@ public class PostController {
 
         return ResponseEntity
                 .created(URI.create("/entity/posts/" + createdPost.getId()))
+    }
 
+    @DeleteMapping("/posts/{postId}")
+    public ResponseEntity<?> deletePost(@PathVariable long postId) {
+        Map<String, Object> responseMap = new HashMap<>();
 
-    public PostController(PostService service) {
-        this.service = service;
+        boolean isDeleted = service.deletePost(postId);
+        if (isDeleted) {
+            String msg = "게시글 삭제에 성공하였습니다.";
+            responseMap.put("result", msg);
+        } else {
+            String msg = "게시글 삭제에 실패하였습니다.";
+            responseMap.put("result", msg);
+        }
+
+        return ResponseEntity
+                .ok()
+                .body(new ResponseMessage(204, "게시글 삭제 성공", responseMap));
     }
 
     @PutMapping("/{id}")
@@ -97,4 +112,3 @@ public class PostController {
     }
 
 }
-
