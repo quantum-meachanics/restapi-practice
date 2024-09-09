@@ -56,7 +56,7 @@ public class PostController {
     @PostMapping("/posts")
     public ResponseEntity<?> regist(@RequestBody PostDto postDto) {
 
-        // 유저추가
+        // 게시글 추가
         PostDto createdPost = service.createPost(postDto);
 
         return ResponseEntity.ok()
